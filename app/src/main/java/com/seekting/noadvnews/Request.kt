@@ -14,7 +14,7 @@ const val TAG = "NoAdvRequest"
 /**
  * Created by Administrator on 2017/9/23.
  */
-class NoAdvRequest(val param: NoAdvRequestParam) {
+class NoAdvRequest(val param: NewsListParam) {
 
     fun performRequest(): NoAdvResponse {
         var response: NoAdvResponse? = null
@@ -28,8 +28,9 @@ class NoAdvRequest(val param: NoAdvRequestParam) {
             }
 
         }
-        val url = URL("$NOADV_HOAST?showapi_appid=${param.showapi_appid}&showapi_sign=${param.showapi_sign}&needHtml=1&needContent=1&needAllList=1")
-        //  Log.d(TAG, "begin request$url")
+//        "$NOADV_HOAST?showapi_appid=${param.sys.showapi_appid}&showapi_sign=${param.sys.showapi_sign}&needHtml=1&needContent=1&needAllList=1"
+        val url = URL(param.productShowApiSign())
+        println("begin request$url")
         val str = url.readText()
         System.out.println(str)
         if (param.useCache) {
@@ -77,12 +78,11 @@ class NoAdvRequest(val param: NoAdvRequestParam) {
     }
 }
 
-data class NoAdvRequestParam(
-        var showapi_appid: String = appid,
-        var showapi_sign: String = appkey,
-        var fileAbsName: String,
-        var useCache: Boolean
 
-)
+fun main(args: Array<String>) {
+    println(getTimeStamp())
+}
+
+
 
 

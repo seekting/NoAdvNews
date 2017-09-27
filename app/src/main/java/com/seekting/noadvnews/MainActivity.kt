@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
         density = resources.displayMetrics.density
         filePath = "${filesDir.absolutePath}/news/home.json"
 
-//        println("density$density")
         setContentView(R.layout.activity_main)
         recycleView = findViewById(R.id.recycle) as RecyclerView
 
@@ -35,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         recycleView.adapter = newsAdapter
 
         var thread = Thread({
-            val r = NoAdvRequest(NoAdvRequestParam(fileAbsName = filePath, useCache = true)).performRequest()
+            val r = NoAdvRequest(NewsListParam(fileAbsName = filePath, useCache = true)).performRequest()
 
             runOnUiThread({
                 newsAdapter.list = r.showapi_res_body.pagebean.contentlist
@@ -76,13 +75,11 @@ class NewsViewHolder : RecyclerView.ViewHolder {
 
 class NewsAdapter(var list: List<Contentlist>?, val context: Context) : RecyclerView.Adapter<NewsViewHolder>(), AdapterView.OnItemClickListener {
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        val content: Contentlist = list!! [position]
+        val content: Contentlist = list!![position]
         val intent = Intent(context, NewsDetailActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.putExtra("Contentlist", content)
         context.startActivity(intent)
-//        Intent(context, NewsDetailActivity.)
-//                context . startActivity ()
     }
 
     override fun getItemCount(): Int {
@@ -107,12 +104,12 @@ class NewsAdapter(var list: List<Contentlist>?, val context: Context) : Recycler
 
 fun main(args: Array<String>) {
 
-    val param = NoAdvRequestParam(fileAbsName = "", useCache = false)
-    val request = NoAdvRequest(param)
-    val response = request.performRequest()
-    for (v in response.showapi_res_body.pagebean.contentlist) {
-        println(v.title)
-    }
+//    val param = NoAdvRequestParam(fileAbsName = "", useCache = false)
+//    val request = NoAdvRequest(param)
+//    val response = request.performRequest()
+//    for (v in response.showapi_res_body.pagebean.contentlist) {
+//        println(v.title)
+//    }
 
 
 }
