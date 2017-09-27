@@ -28,7 +28,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         recycleView = findViewById(R.id.recycle) as RecyclerView
 
-        recycleView.layoutManager = LinearLayoutManager(this)
+        recycleView.layoutManager = object : LinearLayoutManager(this) {
+            override fun generateDefaultLayoutParams(): RecyclerView.LayoutParams {
+                val params = super.generateDefaultLayoutParams()
+                params.width = ViewGroup.LayoutParams.MATCH_PARENT
+
+                return params
+            }
+
+        }
 
         newsAdapter = NewsAdapter(null, this)
         recycleView.adapter = newsAdapter
