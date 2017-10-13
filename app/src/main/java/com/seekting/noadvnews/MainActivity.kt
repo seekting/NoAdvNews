@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             val response = NoAdvRequest(NewsListParam(fileAbsName = filePath, useCache = true)).performRequest()
 
             runOnUiThread({
-                newsAdapter.list = response.showapi_res_body.pagebean.contentlist
+                newsAdapter.list = response
                 newsAdapter.notifyDataSetChanged()
             })
 
