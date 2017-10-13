@@ -4,4 +4,5 @@
         android:left="8dp"
         android:top="8dp"
         /><!-- 各方向的间隔 -->
+    <solid android:color="#ff00ff"/>
 </shape>

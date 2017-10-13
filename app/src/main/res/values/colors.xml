@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <drawable name="default_img">#888888</drawable>
+    <color name="item_bg_color">#fafafa</color>
+    <color name="item_click_bg_color">#888888</color>
+    <color name="item_divider">#aaaaaa</color>
 </resources>

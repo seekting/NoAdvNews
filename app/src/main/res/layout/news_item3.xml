@@ -17,21 +17,31 @@
         android:textColor="#222222"
         android:textSize="18dp"/>
 
-    <ImageView
-        android:id="@+id/image1"
-        android:layout_width="0dp"
-        android:layout_height="82dp"
-        android:layout_weight="1"/>
+    <LinearLayout
+        android:id="@+id/img_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/divider"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:showDividers="middle">
 
-    <ImageView
-        android:id="@+id/image2"
-        android:layout_width="0dp"
-        android:layout_height="82dp"
-        android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/image1"
+            android:layout_width="0dp"
+            android:layout_height="82dp"
+            android:layout_weight="1"/>
 
-    <ImageView
-        android:id="@+id/image3"
-        android:layout_width="0dp"
-        android:layout_height="82dp"
-        android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/image2"
+            android:layout_width="0dp"
+            android:layout_height="82dp"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/image3"
+            android:layout_width="0dp"
+            android:layout_height="82dp"
+            android:layout_weight="1"/>
+    </LinearLayout>
 </LinearLayout>
