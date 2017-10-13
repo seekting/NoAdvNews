@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="90dp"
-    android:background="#ffffff"
+    android:background="@drawable/item_bg"
     android:minHeight="90dp"
-
+    android:orientation="vertical"
     >
 
     <TextView
@@ -18,7 +18,20 @@
         android:textSize="18dp"/>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="82dp"/>
+        android:id="@+id/image1"
+        android:layout_width="0dp"
+        android:layout_height="82dp"
+        android:layout_weight="1"/>
 
-</FrameLayout>
+    <ImageView
+        android:id="@+id/image2"
+        android:layout_width="0dp"
+        android:layout_height="82dp"
+        android:layout_weight="1"/>
+
+    <ImageView
+        android:id="@+id/image3"
+        android:layout_width="0dp"
+        android:layout_height="82dp"
+        android:layout_weight="1"/>
+</LinearLayout>

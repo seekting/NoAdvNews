@@ -10,7 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,8 +23,10 @@ class MainActivity : AppCompatActivity() {
     var density: Float = 0f
     lateinit var recycleView: RecyclerView
     lateinit var newsAdapter: NewsAdapter
+    lateinit var requestManager: RequestManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestManager = Glide.with(this)
         density = resources.displayMetrics.density
         filePath = "${filesDir.absolutePath}/news/home.json"
 
@@ -38,14 +43,14 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        newsAdapter = NewsAdapter(null, this)
+        newsAdapter = NewsAdapter(null, this, requestManager)
         recycleView.adapter = newsAdapter
 
         var thread = Thread({
-            val r = NoAdvRequest(NewsListParam(fileAbsName = filePath, useCache = true)).performRequest()
+            val response = NoAdvRequest(NewsListParam(fileAbsName = filePath, useCache = true)).performRequest()
 
             runOnUiThread({
-                newsAdapter.list = r.showapi_res_body.pagebean.contentlist
+                newsAdapter.list = response.showapi_res_body.pagebean.contentlist
                 newsAdapter.notifyDataSetChanged()
             })
 
@@ -68,20 +73,74 @@ class MainActivity : AppCompatActivity() {
 
 }
 
-class NewsViewHolder : RecyclerView.ViewHolder {
+open class NewsViewHolder : RecyclerView.ViewHolder {
     var titleView: TextView
     var onItemClickListener: AdapterView.OnItemClickListener
+    var requestManager: RequestManager
 
-    constructor(itemView: View, onItemClickListener: AdapterView.OnItemClickListener) : super(itemView) {
+    constructor(itemView: View, onItemClickListener: AdapterView.OnItemClickListener, requestManager: RequestManager) : super(itemView) {
+        this.requestManager = requestManager
         itemView.setOnClickListener({ onItemClickListener.onItemClick(null, itemView, position, 0) })
         titleView = itemView.findViewById(R.id.title) as TextView
         this.onItemClickListener = onItemClickListener
     }
 
+    open fun setData(contentList: Contentlist) {
+        titleView?.text = contentList.title
+    }
+
 
 }
 
-class NewsAdapter(var list: List<Contentlist>?, val context: Context) : RecyclerView.Adapter<NewsViewHolder>(), AdapterView.OnItemClickListener {
+class NewsViewHolder1 : NewsViewHolder {
+
+    lateinit var image1: ImageView
+
+    constructor(itemView: View, onItemClickListener: AdapterView.OnItemClickListener, requestManager: RequestManager) : super(itemView, onItemClickListener, requestManager) {
+        image1 = itemView.findViewById(R.id.image1) as ImageView
+    }
+
+    override fun setData(contentList: Contentlist) {
+        super.setData(contentList)
+        requestManager.load(contentList.imageurls[0].url).into(image1)
+
+    }
+
+
+}
+
+class NewsViewHolder2 : NewsViewHolder {
+    lateinit var image2: ImageView
+
+    constructor(itemView: View, onItemClickListener: AdapterView.OnItemClickListener, requestManager: RequestManager) : super(itemView, onItemClickListener, requestManager) {
+        image2 = itemView.findViewById(R.id.image2) as ImageView
+    }
+
+    override fun setData(contentList: Contentlist) {
+        super.setData(contentList)
+        requestManager.load(contentList.imageurls[1].url).into(image2)
+    }
+
+
+}
+
+class NewsViewHolder3 : NewsViewHolder {
+    lateinit var image3: ImageView
+
+    constructor(itemView: View, onItemClickListener: AdapterView.OnItemClickListener, requestManager: RequestManager) : super(itemView, onItemClickListener, requestManager) {
+        image3 = itemView.findViewById(R.id.image2) as ImageView
+    }
+
+    override fun setData(contentList: Contentlist) {
+        super.setData(contentList)
+        requestManager.load(contentList.imageurls[2].url).into(image3)
+    }
+
+
+}
+
+
+class NewsAdapter(var list: List<Contentlist>?, val context: Context, val requestManager: RequestManager) : RecyclerView.Adapter<NewsViewHolder>(), AdapterView.OnItemClickListener {
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         val content: Contentlist = list!![position]
         val intent = Intent(context, NewsDetailActivity::class.java)
@@ -98,15 +157,37 @@ class NewsAdapter(var list: List<Contentlist>?, val context: Context) : Recycler
         when {
             list == null -> return
             position >= list!!.size -> return
-            else -> holder?.titleView?.text = list!![position].title
+            else -> {
+
+                if (holder != null) {
+                    holder.setData(list!![position])
+                }
+            }
         }
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): NewsViewHolder {
-        var item = LayoutInflater.from(context).inflate(R.layout.news_item, null)
-        val res = NewsViewHolder(item, this)
-        return res
+        val resId = when (viewType) {
+            1 -> R.layout.news_item1
+            2 -> R.layout.news_item2
+            3 -> R.layout.news_item3
+            else -> R.layout.news_item
+        }
+        var item = LayoutInflater.from(context).inflate(resId, null)
+        val result = when (viewType) {
+            1 -> NewsViewHolder1(item, this, requestManager)
+            2 -> NewsViewHolder2(item, this, requestManager)
+            3 -> NewsViewHolder3(item, this, requestManager)
+            else -> NewsViewHolder(item, this, requestManager)
+        }
+        return result
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        val size: Int = list?.get(position)?.imageurls?.size!!
+
+        return size
     }
 }
 
