@@ -1,1 +1,1 @@
-include ':app', ':external:libcommon'
+include ':app', ':external:libcommon',':external:recyclerview-swipe'
