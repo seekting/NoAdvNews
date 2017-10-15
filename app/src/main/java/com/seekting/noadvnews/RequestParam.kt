@@ -47,7 +47,7 @@ data class AppListParam(
         @NewsParam(key = "title")
         val title: String = "",
         @NewsParam(key = "page")
-        val page: String = "",
+        var page: String = "",
         @NewsParam(key = "needContent")
         val needContent: String = "1",
         @NewsParam(key = "needHtml")

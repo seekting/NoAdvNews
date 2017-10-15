@@ -2,6 +2,8 @@ package com.seekting.noadvnews
 
 import android.util.Log
 import com.seekting.noadvnews.dao.News
+import java.io.ByteArrayOutputStream
+import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
 
@@ -30,16 +32,31 @@ class NoAdvRequest(val param: NewsListParam) {
 
         }
         val url = URL(param.productShowApiSign())
-        println("begin request:\n$url")
-        val str = url.readText()
-        println("response:\n $str")
+        Log.d("seekting", "begin request:\n$url")
+        val connect: HttpURLConnection = url.openConnection() as HttpURLConnection
+        connect.connectTimeout = 3000
+        connect.readTimeout = 3000
+        val inputStream = connect.getInputStream()
+        val b = ByteArrayOutputStream()
+        val array = ByteArray(1024)
+        while (true) {
+            val length = inputStream.read(array)
+            if (length <= 0) {
+                break
+            }
+            b.write(array, 0, length)
+
+        }
+        val str = String(b.toByteArray())
+        inputStream.close()
+        Log.d("seekting", "response:\n $str")
         val response: NoAdvResponse? = str.toResponse()
         response?.let {
             if (param.useCache) {
-                saveDB(response)
                 Log.d("seekting", "save cache!")
 
             }
+            saveDB(response)
         }
         Log.d("seekting", "use network!")
         return response?.showapi_res_body?.pagebean?.contentlist ?: ArrayList()
@@ -49,12 +66,42 @@ class NoAdvRequest(val param: NewsListParam) {
 
     fun saveDB(bean: NoAdvResponse) {
         val daos = bean.showapi_res_body.pagebean.contentlist.changeDao()
-        App.app.mDaoSession.newsDao.insertInTx(daos)
+        val allNews = App.app.mDaoSession.newsDao.loadAll()
+        val iterator = daos.iterator()
+        while (iterator.hasNext()) {
+            val dao = iterator.next()
+            for (news in allNews) {
+                if (dao.id == news.id) {
+                    iterator.remove()
+                    break
+                }
+            }
+
+        }
+        if (daos.size > 0) {
+            App.app.mDaoSession.newsDao.insertInTx(daos)
+            Log.d("seekting", "saveDB.()" + daos.size)
+        } else {
+            Log.d("seekting", "saveDB.()" + "没有要存的数据")
+
+        }
     }
 
     fun readDB(): List<News> {
         val news: List<News> = App.app.mDaoSession.newsDao.loadAll()
         return news
+    }
+
+    fun readDBCache(): List<Contentlist> {
+        val news = readDB()
+        news?.let {
+            if (!news.isEmpty()) {
+                Log.d("seekting", "use cache!")
+                return news.changeBean()
+            }
+        }
+        val contentLists = ArrayList<Contentlist>()
+        return contentLists
     }
 
 

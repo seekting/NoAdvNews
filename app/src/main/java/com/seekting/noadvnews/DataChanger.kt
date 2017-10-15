@@ -38,7 +38,7 @@ inline fun List<News>.changeBean(): ArrayList<Contentlist> {
     return contentLists
 }
 
-inline fun List<Contentlist>.changeDao(): List<News> {
+inline fun List<Contentlist>.changeDao(): MutableList<News> {
     val list = ArrayList<News>()
     for (contentList in this) {
         val news = News()

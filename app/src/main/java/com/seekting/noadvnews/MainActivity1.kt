@@ -19,10 +19,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnPreDrawListener
-import android.widget.AdapterView
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
@@ -175,38 +172,61 @@ class MainActivity1 : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
 
     fun asyncLoadData(useCache: Boolean) {
         var thread = Thread({
-            val response = NoAdvRequest(NewsListParam(fileAbsName = filePath, useCache = useCache)).performRequest()
-
-            SystemClock.sleep(1000)
-            runOnUiThread({
-                Log.d("seekting", "notifyDataSetChanged")
-//                newsAdapter.list = response
-                val a = kotlin.collections.ArrayList<Contentlist>()
-                a.add(response[0])
-                newsAdapter.list.addAll(a)
-                swipeRefreshLayout.isRefreshing = false
-                notifyChanged()
-//                recyclerView.loadMoreFinish(false, true)
+            try {
+                val response = NoAdvRequest(NewsListParam(fileAbsName = filePath, useCache = useCache)).performRequest()
+//                SystemClock.sleep(1000)
+                runOnUiThread({
+                    Log.d("seekting", "notifyDataSetChanged")
+                    newsAdapter.list.clear()
+                    newsAdapter.list.addAll(response)
+                    swipeRefreshLayout.isRefreshing = false
+                    notifyChanged()
 
 
-            })
+                })
+            } catch (t: Throwable) {
+                runOnUiThread({
+                    Log.d("seekting", "fail")
+                    swipeRefreshLayout.isRefreshing = false
+                    Toast.makeText(applicationContext, "超时" + t.javaClass.name, Toast.LENGTH_SHORT).show()
+
+
+                })
+            }
+
 
         })
         thread.start()
     }
 
+    var page = 1
     fun loadMoreData(useCache: Boolean) {
         var thread = Thread({
+            try {
+                val param = NewsListParam(fileAbsName = filePath, useCache = false)
+                param.app.page = page.toString()
+                page++
+                val request = NoAdvRequest(param)
+                request.performRequest()
+                val response = request.readDBCache()
+                runOnUiThread({
+                    Log.d("seekting", "notifyDataSetChanged")
+                    newsAdapter.list.clear()
+                    newsAdapter.list.addAll(response)
+                    notifyChanged()
 
-            SystemClock.sleep(1000)
-            runOnUiThread({
-                Log.d("seekting", "notifyDataSetChanged")
-                val t = newsAdapter.list as ArrayList<Contentlist>
-                t.add(t[0])
-                notifyChanged()
+
+                })
+            } catch (t: Throwable) {
+                runOnUiThread({
+                    Log.d("seekting", "load more fail")
+                    notifyChanged()
+                    Toast.makeText(applicationContext, "超时" + t.javaClass.name, Toast.LENGTH_SHORT).show()
 
 
-            })
+                })
+            }
+
 
         })
         thread.start()
@@ -223,8 +243,7 @@ class MainActivity1 : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
 
     override fun onRefresh() {
         asyncLoadData(false)
-        Log.d("seekting", "onRefresh")
-        setTitle("下拉")
+
 
     }
 
