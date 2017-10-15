@@ -5,6 +5,7 @@ buildscript {
     ext.anko_version = '0.10.1'
     repositories {
         maven { url 'https://maven.google.com' }
+        maven { url "https://jitpack.io" }
         jcenter()
     }
     dependencies {

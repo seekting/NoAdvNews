@@ -22,6 +22,7 @@ data class Pagebean(
 )
 
 data class Contentlist(
+        var showProgress: Boolean = false,
         val pubDate: String, //2017-09-24 22:25:56
         val channelName: String, //国内足球最新
         val desc: String, //腾讯体育9月24日随着富力、权健相继输球，华夏幸福又被长春亚泰逼平，对于山东鲁能而言，这是个向亚冠资格继续发起冲击的绝好机会。但是，就像他们的竞争对手一样，在关键的时刻，鲁能也遭遇了当头一棒。马加特1-2不敌河南建业，不知是建业球迷赛前的“做法”起了效果，还是鲁能自己出了什么难以启齿的问题，总之最近这段

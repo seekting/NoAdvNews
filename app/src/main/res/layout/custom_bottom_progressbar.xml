@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.seekting.noadvnews.CustomBottomProgressBar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+
+    <ProgressBar
+        android:id="@+id/bottom_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/load_more_height"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/click_load"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/load_more_height"
+        android:layout_below="@id/bottom_progress_bar"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
+        android:text="点击加载更多"/>
+</com.seekting.noadvnews.CustomBottomProgressBar>
