@@ -36,6 +36,7 @@ public class NewsDao extends AbstractDao<News, String> {
         public final static Property Source = new Property(11, String.class, "source", false, "SOURCE");
         public final static Property Html = new Property(12, String.class, "html", false, "HTML");
         public final static Property Nid = new Property(13, String.class, "nid", false, "NID");
+        public final static Property PubTime = new Property(14, long.class, "pubTime", false, "PUB_TIME");
     };
 
     private DaoSession daoSession;
@@ -67,7 +68,8 @@ public class NewsDao extends AbstractDao<News, String> {
                 "\"IMAGEURLS\" TEXT," + // 10: imageurls
                 "\"SOURCE\" TEXT," + // 11: source
                 "\"HTML\" TEXT," + // 12: html
-                "\"NID\" TEXT);"); // 13: nid
+                "\"NID\" TEXT," + // 13: nid
+                "\"PUB_TIME\" INTEGER NOT NULL );"); // 14: pubTime
     }
 
     /** Drops the underlying database table. */
@@ -145,6 +147,7 @@ public class NewsDao extends AbstractDao<News, String> {
         if (nid != null) {
             stmt.bindString(14, nid);
         }
+        stmt.bindLong(15, entity.getPubTime());
     }
 
     @Override
@@ -216,6 +219,7 @@ public class NewsDao extends AbstractDao<News, String> {
         if (nid != null) {
             stmt.bindString(14, nid);
         }
+        stmt.bindLong(15, entity.getPubTime());
     }
 
     @Override
@@ -245,7 +249,8 @@ public class NewsDao extends AbstractDao<News, String> {
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // imageurls
             cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // source
             cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // html
-            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13) // nid
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // nid
+            cursor.getLong(offset + 14) // pubTime
         );
         return entity;
     }
@@ -266,6 +271,7 @@ public class NewsDao extends AbstractDao<News, String> {
         entity.setSource(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
         entity.setHtml(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
         entity.setNid(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setPubTime(cursor.getLong(offset + 14));
      }
     
     @Override

@@ -16,12 +16,15 @@ import kotlin.concurrent.getOrSet
 @MustBeDocumented
 annotation class NewsParam(val key: String)
 
+const val useCache = 1
+const val useNetWork = 2
 
 data class NewsListParam(
         val host: String = NOADV_HOAST,
         val sys: SysListParam = SysListParam(),
         val app: AppListParam = AppListParam(),
         val useCache: Boolean = false,
+        val saveCache: Boolean = true,
         val fileAbsName: String = ""
 )
 

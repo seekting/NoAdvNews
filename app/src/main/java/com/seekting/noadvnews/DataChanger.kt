@@ -12,12 +12,12 @@ inline fun String.toResponse(): NoAdvResponse {
     return response
 }
 
-inline fun List<News>.changeBean(): ArrayList<Contentlist> {
+inline fun List<News>.changeBean(set: HashSet<String>?): ArrayList<Contentlist> {
     val contentLists = ArrayList<Contentlist>()
     val gson = Gson()
     for (news in this) {
         val contentList = Contentlist(
-                pubDate = news.pubDate,
+                pubTime = news.pubTime,
                 channelName = news.channelName,
                 desc = news.desc,
                 channelId = news.channelId,
@@ -32,8 +32,10 @@ inline fun List<News>.changeBean(): ArrayList<Contentlist> {
                 source = news.source,
                 html = news.html
         )
+        contentList.pubDate = news.pubDate
 
         contentLists.add(contentList)
+        set?.add(news.id)
     }
     return contentLists
 }
@@ -44,6 +46,7 @@ inline fun List<Contentlist>.changeDao(): MutableList<News> {
         val news = News()
         val gson = Gson()
         news.pubDate = contentList.pubDate
+        news.pubTime = contentList.pubTime
         news.channelName = contentList.channelName
         news.desc = contentList.desc
         news.channelId = contentList.channelId

@@ -6,12 +6,14 @@ import java.io.ByteArrayOutputStream
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.*
+import kotlin.collections.HashSet
 
 
 const val NOADV_HOAST = "http://route.showapi.com/109-35"
 const val appid = "46647"
 const val appkey = "f8226efcfa85460a8f3d703eb08a1689"
 const val TAG = "NoAdvRequest"
+val allDBNewsId = HashSet<String>()
 
 
 /**
@@ -25,7 +27,7 @@ class NoAdvRequest(val param: NewsListParam) {
             news?.let {
                 if (!news.isEmpty()) {
                     Log.d("seekting", "use cache!")
-                    return news.changeBean()
+                    return news.changeBean(allDBNewsId)
                 }
             }
 
@@ -52,11 +54,11 @@ class NoAdvRequest(val param: NewsListParam) {
         Log.d("seekting", "response:\n $str")
         val response: NoAdvResponse? = str.toResponse()
         response?.let {
-            if (param.useCache) {
+            if (param.saveCache) {
                 Log.d("seekting", "save cache!")
+                saveDB(response)
 
             }
-            saveDB(response)
         }
         Log.d("seekting", "use network!")
         return response?.showapi_res_body?.pagebean?.contentlist ?: ArrayList()
@@ -97,7 +99,7 @@ class NoAdvRequest(val param: NewsListParam) {
         news?.let {
             if (!news.isEmpty()) {
                 Log.d("seekting", "use cache!")
-                return news.changeBean()
+                return news.changeBean(null)
             }
         }
         val contentLists = ArrayList<Contentlist>()
@@ -138,18 +140,19 @@ class NoAdvRequest(val param: NewsListParam) {
 //
 //}
 fun main(args: Array<String>) {
-    println(getTimeStamp())
-    val url = "http://t11.baidu.com/it/u=2302383772,614241019&fm=173&s=3EB035897C931AD042B9388C03007006&w=600&h=381&img.JPEG"
-    val a = URL(url)
-    val con = a.openConnection()
-    con.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android 6.0.1; MI 5 Build/MXB48T; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/61.0.3163.98 Mobile Safari/537.36")
-//    con.addRequestProperty()
-
-    val input = con.getInputStream()
-    val bytes = input.readBytes()
-
-    println("bytes=${bytes.size}")
+//    println(getTimeStamp())
+//    val url = "http://t11.baidu.com/it/u=2302383772,614241019&fm=173&s=3EB035897C931AD042B9388C03007006&w=600&h=381&img.JPEG"
+//    val a = URL(url)
+//    val con = a.openConnection()
+//    con.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android 6.0.1; MI 5 Build/MXB48T; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/61.0.3163.98 Mobile Safari/537.36")
+////    con.addRequestProperty()
+//
+//    val input = con.getInputStream()
+//    val bytes = input.readBytes()
+//
+//    println("bytes=${bytes.size}")
 }
+
 
 
 

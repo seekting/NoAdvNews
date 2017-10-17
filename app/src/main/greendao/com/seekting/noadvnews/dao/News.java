@@ -26,6 +26,7 @@ public class News {
     public String source; //国内足球新闻
     public String html; //
     public String nid; //
+    public long pubTime;
 /**
  * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
  * Entity must attached to an entity context.
@@ -155,8 +156,14 @@ public String getId() {
 public void setId(String id) {
         this.id = id;
 }
-@Generated(hash = 691876156)
-public News(String id, String pubDate, String channelName, String desc, String channelId, String link, String allList, String content, boolean havePic, String title, String imageurls, String source, String html, String nid) {
+public long getPubTime() {
+        return this.pubTime;
+}
+public void setPubTime(long pubTime) {
+        this.pubTime = pubTime;
+}
+@Generated(hash = 1248653161)
+public News(String id, String pubDate, String channelName, String desc, String channelId, String link, String allList, String content, boolean havePic, String title, String imageurls, String source, String html, String nid, long pubTime) {
         this.id = id;
         this.pubDate = pubDate;
         this.channelName = channelName;
@@ -171,6 +178,7 @@ public News(String id, String pubDate, String channelName, String desc, String c
         this.source = source;
         this.html = html;
         this.nid = nid;
+        this.pubTime = pubTime;
 }
 @Generated(hash = 1579685679)
 public News() {
