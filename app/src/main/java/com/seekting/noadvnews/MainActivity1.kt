@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
-import android.os.SystemClock
 import android.support.annotation.RequiresApi
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
@@ -303,7 +302,10 @@ open class NewsViewHolder1 : NewsViewHolder {
     }
 
     protected fun loadImg(url: String, imageView: ImageView) {
-        requestManager?.load(url)?.placeholder(R.drawable.default_img)?.centerCrop()?.into(imageView)
+        requestManager?.load(NoUrlEncodeUrl(url))?.placeholder(R.drawable.default_img)?.centerCrop()?.into(imageView)
+        println("url=${url}")
+//        requestManager?.load(this)
+
     }
 }
 

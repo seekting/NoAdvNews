@@ -139,6 +139,16 @@ class NoAdvRequest(val param: NewsListParam) {
 //}
 fun main(args: Array<String>) {
     println(getTimeStamp())
+    val url = "http://t11.baidu.com/it/u=2302383772,614241019&fm=173&s=3EB035897C931AD042B9388C03007006&w=600&h=381&img.JPEG"
+    val a = URL(url)
+    val con = a.openConnection()
+    con.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android 6.0.1; MI 5 Build/MXB48T; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/61.0.3163.98 Mobile Safari/537.36")
+//    con.addRequestProperty()
+
+    val input = con.getInputStream()
+    val bytes = input.readBytes()
+
+    println("bytes=${bytes.size}")
 }
 
 
