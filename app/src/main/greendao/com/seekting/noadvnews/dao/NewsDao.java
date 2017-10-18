@@ -37,6 +37,7 @@ public class NewsDao extends AbstractDao<News, String> {
         public final static Property Html = new Property(12, String.class, "html", false, "HTML");
         public final static Property Nid = new Property(13, String.class, "nid", false, "NID");
         public final static Property PubTime = new Property(14, long.class, "pubTime", false, "PUB_TIME");
+        public final static Property IsRead = new Property(15, boolean.class, "isRead", false, "IS_READ");
     };
 
     private DaoSession daoSession;
@@ -69,7 +70,8 @@ public class NewsDao extends AbstractDao<News, String> {
                 "\"SOURCE\" TEXT," + // 11: source
                 "\"HTML\" TEXT," + // 12: html
                 "\"NID\" TEXT," + // 13: nid
-                "\"PUB_TIME\" INTEGER NOT NULL );"); // 14: pubTime
+                "\"PUB_TIME\" INTEGER NOT NULL ," + // 14: pubTime
+                "\"IS_READ\" INTEGER NOT NULL );"); // 15: isRead
     }
 
     /** Drops the underlying database table. */
@@ -148,6 +150,7 @@ public class NewsDao extends AbstractDao<News, String> {
             stmt.bindString(14, nid);
         }
         stmt.bindLong(15, entity.getPubTime());
+        stmt.bindLong(16, entity.getIsRead() ? 1L: 0L);
     }
 
     @Override
@@ -220,6 +223,7 @@ public class NewsDao extends AbstractDao<News, String> {
             stmt.bindString(14, nid);
         }
         stmt.bindLong(15, entity.getPubTime());
+        stmt.bindLong(16, entity.getIsRead() ? 1L: 0L);
     }
 
     @Override
@@ -250,7 +254,8 @@ public class NewsDao extends AbstractDao<News, String> {
             cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // source
             cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // html
             cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // nid
-            cursor.getLong(offset + 14) // pubTime
+            cursor.getLong(offset + 14), // pubTime
+            cursor.getShort(offset + 15) != 0 // isRead
         );
         return entity;
     }
@@ -272,6 +277,7 @@ public class NewsDao extends AbstractDao<News, String> {
         entity.setHtml(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
         entity.setNid(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
         entity.setPubTime(cursor.getLong(offset + 14));
+        entity.setIsRead(cursor.getShort(offset + 15) != 0);
      }
     
     @Override

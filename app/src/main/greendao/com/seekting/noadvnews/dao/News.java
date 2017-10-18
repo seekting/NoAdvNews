@@ -1,4 +1,5 @@
 package com.seekting.noadvnews.dao;
+
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
@@ -27,143 +28,194 @@ public class News {
     public String html; //
     public String nid; //
     public long pubTime;
-/**
- * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
- * Entity must attached to an entity context.
- */
-@Generated(hash = 1942392019)
-public void refresh() {
+    public boolean isRead;
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 1942392019)
+    public void refresh() {
         if (myDao == null) {
-                throw new DaoException("Entity is detached from DAO context");
+            throw new DaoException("Entity is detached from DAO context");
         }
         myDao.refresh(this);
-}
-/**
- * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
- * Entity must attached to an entity context.
- */
-@Generated(hash = 713229351)
-public void update() {
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 713229351)
+    public void update() {
         if (myDao == null) {
-                throw new DaoException("Entity is detached from DAO context");
+            throw new DaoException("Entity is detached from DAO context");
         }
         myDao.update(this);
-}
-/**
- * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
- * Entity must attached to an entity context.
- */
-@Generated(hash = 128553479)
-public void delete() {
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 128553479)
+    public void delete() {
         if (myDao == null) {
-                throw new DaoException("Entity is detached from DAO context");
+            throw new DaoException("Entity is detached from DAO context");
         }
         myDao.delete(this);
-}
-/** called by internal mechanisms, do not call yourself. */
-@Generated(hash = 543991306)
-public void __setDaoSession(DaoSession daoSession) {
+    }
+
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
+    @Generated(hash = 543991306)
+    public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getNewsDao() : null;
-}
-/** Used for active entity operations. */
-@Generated(hash = 255022283)
-private transient NewsDao myDao;
-/** Used to resolve relations */
-@Generated(hash = 2040040024)
-private transient DaoSession daoSession;
-public String getNid() {
+    }
+
+    /**
+     * Used for active entity operations.
+     */
+    @Generated(hash = 255022283)
+    private transient NewsDao myDao;
+    /**
+     * Used to resolve relations
+     */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+
+    public String getNid() {
         return this.nid;
-}
-public void setNid(String nid) {
+    }
+
+    public void setNid(String nid) {
         this.nid = nid;
-}
-public String getHtml() {
+    }
+
+    public String getHtml() {
         return this.html;
-}
-public void setHtml(String html) {
+    }
+
+    public void setHtml(String html) {
         this.html = html;
-}
-public String getSource() {
+    }
+
+    public String getSource() {
         return this.source;
-}
-public void setSource(String source) {
+    }
+
+    public void setSource(String source) {
         this.source = source;
-}
-public String getImageurls() {
+    }
+
+    public String getImageurls() {
         return this.imageurls;
-}
-public void setImageurls(String imageurls) {
+    }
+
+    public void setImageurls(String imageurls) {
         this.imageurls = imageurls;
-}
-public String getTitle() {
+    }
+
+    public String getTitle() {
         return this.title;
-}
-public void setTitle(String title) {
+    }
+
+    public void setTitle(String title) {
         this.title = title;
-}
-public boolean getHavePic() {
+    }
+
+    public boolean getHavePic() {
         return this.havePic;
-}
-public void setHavePic(boolean havePic) {
+    }
+
+    public void setHavePic(boolean havePic) {
         this.havePic = havePic;
-}
-public String getContent() {
+    }
+
+    public String getContent() {
         return this.content;
-}
-public void setContent(String content) {
+    }
+
+    public void setContent(String content) {
         this.content = content;
-}
-public String getAllList() {
+    }
+
+    public String getAllList() {
         return this.allList;
-}
-public void setAllList(String allList) {
+    }
+
+    public void setAllList(String allList) {
         this.allList = allList;
-}
-public String getLink() {
+    }
+
+    public String getLink() {
         return this.link;
-}
-public void setLink(String link) {
+    }
+
+    public void setLink(String link) {
         this.link = link;
-}
-public String getChannelId() {
+    }
+
+    public String getChannelId() {
         return this.channelId;
-}
-public void setChannelId(String channelId) {
+    }
+
+    public void setChannelId(String channelId) {
         this.channelId = channelId;
-}
-public String getDesc() {
+    }
+
+    public String getDesc() {
         return this.desc;
-}
-public void setDesc(String desc) {
+    }
+
+    public void setDesc(String desc) {
         this.desc = desc;
-}
-public String getChannelName() {
+    }
+
+    public String getChannelName() {
         return this.channelName;
-}
-public void setChannelName(String channelName) {
+    }
+
+    public void setChannelName(String channelName) {
         this.channelName = channelName;
-}
-public String getPubDate() {
+    }
+
+    public String getPubDate() {
         return this.pubDate;
-}
-public void setPubDate(String pubDate) {
+    }
+
+    public void setPubDate(String pubDate) {
         this.pubDate = pubDate;
-}
-public String getId() {
+    }
+
+    public String getId() {
         return this.id;
-}
-public void setId(String id) {
+    }
+
+    public void setId(String id) {
         this.id = id;
-}
-public long getPubTime() {
+    }
+
+    public long getPubTime() {
         return this.pubTime;
-}
-public void setPubTime(long pubTime) {
+    }
+
+    public void setPubTime(long pubTime) {
         this.pubTime = pubTime;
-}
-@Generated(hash = 1248653161)
-public News(String id, String pubDate, String channelName, String desc, String channelId, String link, String allList, String content, boolean havePic, String title, String imageurls, String source, String html, String nid, long pubTime) {
+    }
+
+    public boolean getIsRead() {
+        return this.isRead;
+    }
+
+    public void setIsRead(boolean isRead) {
+        this.isRead = isRead;
+    }
+
+    @Generated(hash = 929934911)
+    public News(String id, String pubDate, String channelName, String desc, String channelId, String link, String allList, String content, boolean havePic, String title, String imageurls, String source, String html, String nid, long pubTime, boolean isRead) {
         this.id = id;
         this.pubDate = pubDate;
         this.channelName = channelName;
@@ -179,9 +231,11 @@ public News(String id, String pubDate, String channelName, String desc, String c
         this.html = html;
         this.nid = nid;
         this.pubTime = pubTime;
-}
-@Generated(hash = 1579685679)
-public News() {
-}
+        this.isRead = isRead;
+    }
+
+    @Generated(hash = 1579685679)
+    public News() {
+    }
 
 }

@@ -169,11 +169,11 @@ class MainActivity1 : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
         newsAdapter.notifyDataSetChanged()
     }
 
+
     fun asyncLoadData(useCache: Boolean) {
-        var thread = Thread({
+        threadpool {
             try {
                 val response = NoAdvRequest(NewsListParam(fileAbsName = filePath, useCache = useCache)).performRequest()
-//                SystemClock.sleep(1000)
                 runOnUiThread({
                     Log.d("seekting", "notifyDataSetChanged")
                     newsAdapter.list.clear()
@@ -185,7 +185,7 @@ class MainActivity1 : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                 })
             } catch (t: Throwable) {
                 runOnUiThread({
-                    Log.d("seekting", "fail")
+                    Log.e("seekting", "fail", t)
                     swipeRefreshLayout.isRefreshing = false
                     Toast.makeText(applicationContext, "超时" + t.javaClass.name, Toast.LENGTH_SHORT).show()
 
@@ -194,8 +194,7 @@ class MainActivity1 : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
             }
 
 
-        })
-        thread.start()
+        }
     }
 
     var page = 1
@@ -218,7 +217,7 @@ class MainActivity1 : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
                 })
             } catch (t: Throwable) {
                 runOnUiThread({
-                    Log.d("seekting", "load more fail")
+                    Log.e("seekting", "load more fail", t)
                     notifyChanged()
                     Toast.makeText(applicationContext, "超时" + t.javaClass.name, Toast.LENGTH_SHORT).show()
 
