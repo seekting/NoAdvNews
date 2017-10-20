@@ -7,8 +7,10 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.database.sqlite.SQLiteDatabase
 import android.os.Environment
+import android.os.Handler
 import android.util.Log
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
 import com.seekting.noadvnews.dao.DaoMaster
 import com.seekting.noadvnews.dao.DaoSession
 import java.io.File
@@ -33,11 +35,16 @@ class App : Application() {
     lateinit var mDaoMaster: DaoMaster
     lateinit var mDaoSession: DaoSession
     lateinit var dbOutputReceiver: BroadcastReceiver
+    lateinit var mRequestManager: RequestManager
+    lateinit var mUiHandler: Handler
 
 
     override fun onCreate() {
         super.onCreate()
+
+        mUiHandler = Handler()
         App.app = this
+        mRequestManager = Glide.with(this)
         setDataBase()
         Glide.get(this).register(NoUrlEncodeUrl::class.java, InputStream::class.java, NoUrlEncodeLoaderFactory())
         dbOutputReceiver = object : BroadcastReceiver() {
@@ -87,4 +94,17 @@ public fun threadpool(block: () -> Unit) {
         block()
     })
 
+
+}
+
+public fun mainThread(block: () -> Unit) {
+    App.app.mUiHandler.post {
+        block()
+    }
+}
+
+public fun mainThreadDelayed(block: () -> Unit, time: Long) {
+    App.app.mUiHandler.postDelayed({
+        block()
+    }, time)
 }

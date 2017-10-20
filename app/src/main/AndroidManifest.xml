@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name=".App"
@@ -23,6 +24,7 @@
 
         </activity>
         <activity android:name=".NewsDetailActivity"/>
+        <activity android:name=".NewsDetailActivity1"/>
     </application>
 
 </manifest>

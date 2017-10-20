@@ -5,4 +5,5 @@
     <dimen name="item1_height">110dp</dimen>
     <dimen name="item2_height">145dp</dimen>
     <dimen name="item3_height">145dp</dimen>
+    <dimen name="desc_text_size">6sp</dimen>
 </resources>

@@ -378,7 +378,7 @@ class NewsAdapter(val list: ArrayList<Contentlist> = ArrayList<Contentlist>(), v
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         val content: Contentlist = list!![position]
-        val intent = Intent(context, NewsDetailActivity::class.java)
+        val intent = Intent(context, NewsDetailActivity1::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.putExtra("Contentlist", content)
         context.startActivity(intent)

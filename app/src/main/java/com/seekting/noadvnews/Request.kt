@@ -1,6 +1,9 @@
 package com.seekting.noadvnews
 
+import android.content.Context
+import android.net.ConnectivityManager
 import android.util.Log
+import com.google.gson.Gson
 import com.seekting.noadvnews.dao.News
 import java.io.ByteArrayOutputStream
 import java.net.HttpURLConnection
@@ -87,6 +90,22 @@ class NoAdvRequest(val param: NewsListParam) {
             Log.d("seekting", "saveDB.()" + "没有要存的数据")
 
         }
+        threadpool {
+            if (isWifiConnected(App.app)) {
+                val gson = Gson()
+                for (a in daos) {
+                    if (!isWifiConnected(App.app)) {
+                        break
+                    }
+                    val imgs = gson.fromJson<Array<Imageurl>>(a.imageurls, Array<Imageurl>::class.java)
+                    for (img in imgs) {
+                        mainThread {
+                            App.app.mRequestManager.load(NoUrlEncodeUrl(img.url)).preload()
+                        }
+                    }
+                }
+            }
+        }
     }
 
     fun readDB(): List<News> {
@@ -106,6 +125,15 @@ class NoAdvRequest(val param: NewsListParam) {
         return contentLists
     }
 
+
+}
+
+fun isWifiConnected(context: Context): Boolean {
+    val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val wifiNetworkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
+    return if (wifiNetworkInfo.isConnected) {
+        true
+    } else false
 
 }
 
