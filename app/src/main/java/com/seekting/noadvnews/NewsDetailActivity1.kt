@@ -48,7 +48,7 @@ abstract open class AbsViewHolder(view: View, val requestManager: RequestManager
 class ImgViewHolder(view: View, val mImageView: ImageView, requestManager: RequestManager) : AbsViewHolder(view, requestManager) {
     override fun setData(any: Any) {
         if (any is LinkedHashMap<*, *>) {
-            requestManager.load(NoUrlEncodeUrl(any["url"].toString())).into(mImageView)
+            requestManager.load(NoUrlEncodeUrl(any["url"].toString())).fitCenter().into(mImageView)
         }
     }
 
