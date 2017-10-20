@@ -100,7 +100,8 @@ class NoAdvRequest(val param: NewsListParam) {
                     val imgs = gson.fromJson<Array<Imageurl>>(a.imageurls, Array<Imageurl>::class.java)
                     for (img in imgs) {
                         mainThread {
-                            App.app.mRequestManager.load(NoUrlEncodeUrl(img.url)).preload()
+                            val w = com.bumptech.glide.request.target.Target.SIZE_ORIGINAL
+                            App.app.mRequestManager.load(NoUrlEncodeUrl(img.url)).downloadOnly(w, w)
                         }
                     }
                 }

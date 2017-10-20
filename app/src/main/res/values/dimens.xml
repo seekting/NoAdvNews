@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="load_more_height">0dp</dimen>
+    <dimen name="margin_8dp">8dp</dimen>
     <dimen name="item_height">90dp</dimen>
     <dimen name="item1_height">110dp</dimen>
     <dimen name="item2_height">145dp</dimen>

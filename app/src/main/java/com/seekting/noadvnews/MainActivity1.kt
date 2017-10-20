@@ -301,7 +301,10 @@ open class NewsViewHolder1 : NewsViewHolder {
     }
 
     protected fun loadImg(url: String, imageView: ImageView) {
-        requestManager?.load(NoUrlEncodeUrl(url))?.placeholder(R.drawable.default_img)?.centerCrop()?.into(imageView)
+        requestManager?.load(NoUrlEncodeUrl(url))?.placeholder(R.drawable.default_img)
+                ?.centerCrop()
+                ?.thumbnail(0.1f)
+                ?.into(imageView)
         println("url=${url}")
 //        requestManager?.load(this)
 
